@@ -65,13 +65,20 @@ ul li a.active {
 }
 
 /* ==== TYPOGRAPHY ==== */
-h1, span {
+h1{
     text-align: center;
     font-size: 48px;
     font-weight: 700;
     margin-bottom: 10px;
     color: #ffffff;
     letter-spacing: 1px;
+}
+
+span {
+    text-align: center;
+    font-size: 48px;
+    font-weight: 700;
+    color: #ffffff;
 }
 
 h2 {
