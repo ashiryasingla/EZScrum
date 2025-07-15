@@ -74,6 +74,12 @@ h1{
     letter-spacing: 1px;
 }
 
+.title {
+    text-align: center;
+    font-size: 48px;
+    font-weight: 700;
+    color: #ffffff;
+}
 
 h2 {
     text-align: center;
