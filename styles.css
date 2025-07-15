@@ -34,7 +34,7 @@ ul li {
     margin-bottom: 10px;
 }
 
-ul li a {
+ul li a.menu {
     display: block;
     padding: 16px 24px;
     text-decoration: none;
