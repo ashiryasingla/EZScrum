@@ -83,7 +83,7 @@ hr {
     border-radius: 2px;
 }
 
-p {
+p, h2 {
     max-width: 800px;
     margin: 0 auto;
     text-align: center;
