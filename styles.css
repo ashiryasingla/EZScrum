@@ -99,6 +99,10 @@ p {
     color: #cfcfcf;
 }
 
+.ez {
+    color: #89f1ff;
+}
+
 /* ==== RESPONSIVE ==== */
 @media screen and (max-width: 768px) {
     ul {
