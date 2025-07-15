@@ -46,7 +46,7 @@ ul li a.menu {
     border-left: 4px solid transparent;
 }
 
-ul li a:hover {
+ul li.menu a:hover {
     background-color: rgba(255, 255, 255, 0.05);
     color: #ffffff;
     border-left: 4px solid #04AA6D;
