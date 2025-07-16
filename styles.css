@@ -123,6 +123,58 @@ p {
     to{border-right-color: transparent;}
   }
 
+/* ==== TEAM SECTION ==== */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.team-member {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    max-width: 280px;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+}
+
+.team-member img {
+    width: 200px;
+    height:200px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.team-member .name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 5px;
+}
+
+.team-member .role {
+    font-size: 16px;
+    color: #aad9db;
+    margin-bottom: 5px;
+}
+
+.team-member .email {
+    font-size: 14px;
+    color: #4f8cff;
+    text-decoration-line: underline;
+    word-break: break-word;
+}
 
 /* ==== RESPONSIVE ==== */
 @media screen and (max-width: 768px) {
