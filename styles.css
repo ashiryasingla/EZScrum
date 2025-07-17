@@ -65,7 +65,7 @@ ul li a.active {
 }
 
 /* ==== TYPOGRAPHY ==== */
-h1{
+h1 {
     text-align: center;
     font-size: 48px;
     font-weight: 700;
@@ -75,7 +75,6 @@ h1{
 }
 
 .title {
-    text-align: center;
     font-size: 48px;
     font-weight: 700;
     color: #ffffff;
@@ -110,18 +109,20 @@ p {
     color: #89f1ff;
 }
 
-.anim-typewriter{
+.anim-typewriter {
     animation: typewriter 4s steps(44) 1s 1 normal both,
                blinkTextCursor 500ms steps(44) infinite normal;
-  }
-  @keyframes typewriter{
-    from{width: 0;}
-    to{width: 15em;}
-  }
-  @keyframes blinkTextCursor{
-    from{border-right-color: rgba(255,255,255,.75);}
-    to{border-right-color: transparent;}
-  }
+}
+
+@keyframes typewriter {
+    from { width: 0; }
+    to { width: 15em; }
+}
+
+@keyframes blinkTextCursor {
+    from { border-right-color: rgba(255,255,255,.75); }
+    to { border-right-color: transparent; }
+}
 
 /* ==== TEAM SECTION ==== */
 .container {
@@ -150,7 +151,7 @@ p {
 
 .team-member img {
     width: 200px;
-    height:200px;
+    height: 200px;
     border-radius: 8px;
     object-fit: cover;
     margin-bottom: 15px;
@@ -176,7 +177,124 @@ p {
     word-break: break-word;
 }
 
+/* ==== BACKLOG CONTAINER ==== */
+.backlog-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: nowrap; /* Force side-by-side */
+    padding: 20px 40px 100px;
+    box-sizing: border-box;
+}
+
+/* ==== BACKLOG BOXES ==== */
+.product-backlog, .sprint-backlog {
+    background-color: #e0e0e0;
+    border-radius: 25px;
+    width: 400px;
+    min-height: 600px;
+    padding: 30px 20px 20px;
+    border: 3px solid black;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.backlog-title {
+    color: black;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* ==== BACKLOG ITEMS ==== */
+.backlog-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.backlog-item {
+    background-color: #111;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 999px;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.backlog-item small {
+    display: block;
+    color: #333;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* ==== BUTTONS + PAGINATION ==== */
+.backlog-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.backlog-btn {
+    background-color: #5a4bcf;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.backlog-btn:hover {
+    background-color: #4638b3;
+}
+
+.arrow-btn {
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.page-label {
+    font-size: 14px;
+    color: #333;
+}
+
+/* ==== CHECKMARK ==== */
+.checkmark {
+    margin-left: 10px;
+}
+
 /* ==== RESPONSIVE ==== */
+@media screen and (max-width: 1024px) {
+    .backlog-container {
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .product-backlog, .sprint-backlog {
+        width: 90%;
+        min-height: auto;
+    }
+}
+
 @media screen and (max-width: 768px) {
     ul {
         position: relative;
