@@ -275,10 +275,28 @@ p {
     color: #333;
 }
 
-/* ==== CHECKMARK ==== */
+/* ==== CHECKMARK IMAGE ==== */
 .checkmark {
     margin-left: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    opacity: 1;
 }
+
+.checkmark.inactive {
+    opacity: 0.3;
+}
+
+/* ==== BACKLOG ITEM CHECKED STATE ==== */
+.backlog-item.checked {
+    opacity: 0.6;
+    text-decoration: line-through;
+    color: #999;
+    transition: opacity 0.3s ease, color 0.3s ease, text-decoration 0.3s ease;
+}
+
 
 /* ==== RESPONSIVE ==== */
 @media screen and (max-width: 1024px) {
