@@ -1,80 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EZScrum - Easily Accessible Scrum Management</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" type="image/png" href="favicon.png" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EZScrum - Easily Accessible Scrum Management</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="favicon.png" />
 </head>
 <body>
-    <!-- Sidebar Navigation -->
-    <ul>
-        <li><a href="index.html"><img src="favicon.png" width="55" height="50" style="padding-left: 5px;" /></a></li>
-        <li><a class="active menu" href="index.html">Home</a></li>
-        <li><a class="menu" href="about.html">About</a></li>
-        <li><a class="menu" href="contact.html">Contact</a></li>
-    </ul>
+  <!-- Sidebar Navigation -->
+  <ul>
+    <li><a href="index.html"><img src="favicon.png" width="55" height="50" style="padding-left: 5px;"></a></li>
+    <li><a class="active menu" href="index.html">🏠 Home</a></li>
+    <li><a class="menu" href="about.html">ℹ️ About</a></li>
+    <li><a class="menu" href="contact.html">📧 Contact</a></li>
+  </ul>
 
-    <!-- Main Content -->
-    <div class="main">
-        <h1 style="font-size: 0;">
-            <span class="ez title">EZ</span>
-            <span class="title">Scrum</span>
-        </h1>
-        <hr />
-        <p>Welcome to EZScrum. Manage your agile projects with speed and clarity.</p>
 
-        <div class="backlog-container">
-            <!-- Product Backlog -->
-            <div class="product-backlog">
-                <h1 class="backlog-title">Product Backlog</h1>
+  <!-- Main Content -->
+  <div class="main">
+    <h1 style="font-size: 0;">
+      <span class="ez title">EZ</span>
+      <span class="title">Scrum</span>
+    </h1>
+    <hr />
+    <p>Welcome to EZScrum. Manage your agile projects with speed and clarity.</p>
 
-                <div class="backlog-items">
-                    <div class="backlog-item">1. Example item <img class="checkmark" src="checked.png" alt="Check"></div>
-                    <div class="backlog-item">2. Example item <img class="checkmark" src="checked.png" alt="Check"></div>
-                    <div class="backlog-item">3. Example item <img class="checkmark" src="checked.png" alt="Check"></div>
-                    <div class="backlog-item">4. Example item <img class="checkmark" src="checked.png" alt="Check"></div>
-                    <div class="backlog-item">5. Example item <img class="checkmark" src="checked.png" alt="Check"></div>
-                </div>
 
-                <div class="backlog-footer">
-                    <button class="backlog-btn">Add Item</button>
-                    <button class="backlog-btn">Remove Item</button>
-                    <span class="page-label">Page 1/2</span>
-                    <button class="arrow-btn">➡️</button>
-                </div>
-            </div>
-
-            <!-- Sprint Backlog -->
-            <div class="sprint-backlog">
-                <h1 class="backlog-title">Sprint 1 Backlog</h1>
-
-                <div class="backlog-items">
-                    <div class="backlog-item">
-                        1. Example item <img class="checkmark" src="checked.png" alt="Check">
-                    </div>
-                </div>
-
-                <div class="backlog-footer">
-                    <button class="backlog-btn">New Sprint</button>
-                    <span class="page-label">Page 1/1</span>
-                    <button class="arrow-btn">➡️</button>
-                </div>
-            </div>
+    <div class="backlog-container">
+      <!-- Product Backlog -->
+      <div class="product-backlog">
+        <h1 class="backlog-title">Product Backlog</h1>
+        <div class="backlog-items" id="productBacklog">
+          <div class="backlog-item">
+            <input type="text" maxlength="19" value="1. Example item" class="editable-input">
+            <img class="checkmark" src="checked.png" alt="Check">
+          </div>
         </div>
-    </div>
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const checkmarks = document.querySelectorAll(".checkmark");
+        <div class="backlog-footer">
+          <button class="backlog-btn" onclick="addItem();">Add Item</button>
+          <button class="backlog-btn" onclick="removeItem();">Remove Item</button>
+          <span class="page-label">Page 1/2</span>
+          <button class="arrow-btn">></button>
+        </div>
+      </div>
 
-            checkmarks.forEach(checkmark => {
-                checkmark.addEventListener("click", () => {
-                    checkmark.classList.toggle("inactive");
-                });
-            });
-        });
-    </script>
+
+      <!-- Sprint Backlog -->
+      <div class="sprint-backlog">
+        <h1 class="backlog-title">Sprint 1 Backlog</h1>
+        <div class="backlog-items">
+          <div class="backlog-item">
+            1. Example item <img class="checkmark" src="checked.png" alt="Check">
+          </div>
+        </div>
+        <div class="backlog-footer">
+          <button class="backlog-btn">New Sprint</button>
+          <span class="page-label">Page 1/1</span>
+          <button class="arrow-btn">></button>           
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- JavaScript -->
+  <script>
+    function toggleCheckmark(event) {
+      event.target.classList.toggle("inactive");
+    }
+  
+    function addItem() {
+      const backlog = document.getElementById("productBacklog");
+      const newItem = document.createElement("div");
+      newItem.className = "backlog-item";
+      const itemCount = backlog.children.length + 1;
+  
+      newItem.innerHTML = `
+        <input type="text" maxlength="19" value="${itemCount}. New item" class="editable-input">
+        <img class="checkmark" src="checked.png" alt="Check">
+      `;
+  
+      backlog.appendChild(newItem);
+  
+      // Attach the same checkmark logic to the new item
+      const newCheckmark = newItem.querySelector(".checkmark");
+      newCheckmark.addEventListener("click", toggleCheckmark);
+    }
+  
+    function removeItem() {
+      const backlog = document.getElementById("productBacklog");
+      if (backlog.children.length > 0) {
+        backlog.removeChild(backlog.lastElementChild);
+      }
+    }
+  
+    document.addEventListener("DOMContentLoaded", function () {
+      const checkmarks = document.querySelectorAll(".checkmark");
+      checkmarks.forEach(checkmark => {
+        checkmark.addEventListener("click", toggleCheckmark);
+      });
+    });
+  </script>
+  
 </body>
 </html>

@@ -297,6 +297,17 @@ p {
     transition: opacity 0.3s ease, color 0.3s ease, text-decoration 0.3s ease;
 }
 
+.editable-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 1rem;
+    font-family: inherit;
+    margin-right: 8px;
+    color: white;
+  }
+
 
 /* ==== RESPONSIVE ==== */
 @media screen and (max-width: 1024px) {
