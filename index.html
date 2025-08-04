@@ -33,8 +33,8 @@
         <h1 class="backlog-title">Product Backlog</h1>
         <div class="backlog-items" id="productBacklog">
           <div class="backlog-item">
-            <input type="text" maxlength="19" value="1. Example item" class="editable-input">
-            <img class="checkmark" src="checked.png" alt="Check">
+            <input type="text" maxlength="19" value="1. New Item" class="editable-input">
+            <img class="checkmark inactive" src="checked.png" alt="Check">
           </div>
         </div>
         <div class="backlog-footer">
@@ -47,11 +47,11 @@
 
 
       <!-- Sprint Backlog -->
-      <div class="sprint-backlog">
-        <h1 class="backlog-title">Sprint 1 Backlog</h1>
+      <div class="sprint-items">
+        <h1 class="backlog-title">Sprint 1 Items</h1>
         <div class="backlog-items">
           <div class="backlog-item">
-            1. Example item <img class="checkmark" src="checked.png" alt="Check">
+            1. Example item <img class="checkmark inactive" src="checked.png" alt="Check">
           </div>
         </div>
         <div class="backlog-footer">
@@ -78,7 +78,7 @@
   
       newItem.innerHTML = `
         <input type="text" maxlength="19" value="${itemCount}. New item" class="editable-input">
-        <img class="checkmark" src="checked.png" alt="Check">
+        <img class="checkmark inactive" src="checked.png" alt="Check">
       `;
   
       backlog.appendChild(newItem);
