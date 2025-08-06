@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>EZScrum - Easily Accessible Scrum Management</title>
   <link rel="stylesheet" href="styles.css" />
-  
 </head>
 <body>
   <!-- Sidebar Navigation -->
@@ -14,13 +13,12 @@
     <li><a class="active menu" href="index.html">🏠 Home</a></li>
     <li><a class="menu" href="about.html">ℹ️ About</a></li>
     <li><a class="menu" href="contact.html">📧 Contact</a></li>
+    <li><a class="menu" href="help.html">🆘 Help</a></li>
   </ul>
   <button class="save-btn" onclick="saveProgress()">💾 Save Progress</button>
   <div class="main">
     <a href="help.html" class="help-link">🆘 Stuck? Click Me!</a>
-    <h1>
-      <span class="ez title">EZ</span><span class="title">Scrum</span>
-    </h1>
+    <h1><span class="ez title">EZ</span><span class="title">Scrum</span></h1>
     <hr />
     <p>Welcome to EZScrum. Manage your agile projects with speed and clarity.</p>
 
@@ -45,7 +43,6 @@
 
       <!-- Sprint Backlog -->
       <div class="sprint-items">
-        <div id="countdown" class="countdown"></div>
         <h2 class="backlog-title">Sprint <span id="currentSprintNumber">-</span> Items</h2>
         <div id="sprintBacklog" class="backlog-items"></div>
         <div class="backlog-footer">
@@ -58,6 +55,7 @@
           </div>
           <span class="other-pages-info" id="sprintInfoLabel"></span>
         </div>
+        <div id="countdown" class="countdown"></div>
       </div>
     </div>
   </div>
@@ -74,7 +72,9 @@
     let countdownInterval;
 
     function autosave() {
-      const data = { nextItemId, productItems, sprints, sprintEndTimes };
+      // Convert sprintEndTimes Date objects to ISO strings for storage
+      const sprintEndTimesISO = sprintEndTimes.map(dt => dt.toISOString());
+      const data = { nextItemId, productItems, sprints, sprintEndTimes: sprintEndTimesISO };
       document.cookie = `ezScrumData=${encodeURIComponent(JSON.stringify(data))};path=/;max-age=31536000`;
     }
 
@@ -86,17 +86,16 @@
           nextItemId = data.nextItemId || nextItemId;
           productItems = data.productItems || productItems;
           sprints = data.sprints || sprints;
-          sprintEndTimes = data.sprintEndTimes || sprintEndTimes;
+          // Convert ISO strings back to Date objects
+          sprintEndTimes = (data.sprintEndTimes || []).map(str => new Date(str));
           if (sprints.length) currentSprintIndex = 0;
         } catch (e) { console.error(e); }
       }
     }
 
     function createItemHTML(item, editable) {
-      // wrapper to hold item box and details separately
       const wrapper = document.createElement('div');
       wrapper.className = 'item-wrapper';
-
       const div = document.createElement('div');
       div.className = 'backlog-item';
       const num = document.createElement('span');
@@ -125,8 +124,6 @@
       }
 
       wrapper.appendChild(div);
-
-      // assigned text under the box for sprint items
       if (!editable) {
         const details = document.createElement('div');
         details.className = 'story-details below-item';
@@ -145,29 +142,29 @@
       const infoLabel = document.getElementById(type === 'product' ? 'productInfoLabel' : 'sprintInfoLabel');
       container.innerHTML = '';
       const total = arr.length;
-      const totalPages = Math.ceil(total/ITEMS_PER_PAGE) || 1;
-      page = Math.min(page, totalPages-1);
-      const start = page*ITEMS_PER_PAGE;
-      const end = Math.min(start+ITEMS_PER_PAGE, total);
-      for (let i=start; i<end; i++) container.appendChild(createItemHTML(arr[i], type==='product'));
-      pageLabel.textContent = `Page ${type==='product'?productPage+1:sprintPage+1}/${type==='product'?totalPages:totalPages}`;
-      infoLabel.textContent = (total-end)? `${total-end} more` : '';
+      const totalPages = Math.ceil(total / ITEMS_PER_PAGE) || 1;
+      page = Math.min(page, totalPages - 1);
+      const start = page * ITEMS_PER_PAGE;
+      const end = Math.min(start + ITEMS_PER_PAGE, total);
+      for (let i = start; i < end; i++) container.appendChild(createItemHTML(arr[i], type === 'product'));
+      pageLabel.textContent = `Page ${type === 'product' ? productPage + 1 : sprintPage + 1}/${totalPages}`;
+      infoLabel.textContent = (total - end) ? `${total - end} more` : '';
     }
 
     function renderSelectors() {
       const cont = document.getElementById('sprintSelectors'); cont.innerHTML = '';
       sprints.forEach((_, i) => {
         const btn = document.createElement('button');
-        btn.className = 'sprint-btn backlog-btn' + (i===currentSprintIndex?' active-sprint-btn':'');
-        btn.textContent = 'Sprint '+(i+1);
-        btn.onclick = () => { currentSprintIndex=i; sprintPage=0; renderAll(); startCountdown(); };
+        btn.className = 'sprint-btn backlog-btn' + (i === currentSprintIndex ? ' active-sprint-btn' : '');
+        btn.textContent = 'Sprint ' + (i + 1);
+        btn.onclick = () => { currentSprintIndex = i; sprintPage = 0; renderAll(); startCountdown(); };
         const close = document.createElement('span');
-        close.className='close-btn'; close.textContent='×';
-        close.onclick = e=>{ e.stopPropagation(); removeSprint(i); };
+        close.className = 'close-btn'; close.textContent = '×';
+        close.onclick = e => { e.stopPropagation(); removeSprint(i); };
         btn.appendChild(close);
         cont.appendChild(btn);
       });
-      document.getElementById('currentSprintNumber').textContent = currentSprintIndex>=0?(currentSprintIndex+1):'-';
+      document.getElementById('currentSprintNumber').textContent = currentSprintIndex >= 0 ? (currentSprintIndex + 1) : '-';
     }
 
     function renderAll() {
@@ -175,39 +172,107 @@
     }
 
     function addItem() {
-      productItems.push({ id: nextItemId++, story:'User Story' });
-      productPage = Math.floor((productItems.length-1)/ITEMS_PER_PAGE);
+      productItems.push({ id: nextItemId++, story: 'User Story' });
+      productPage = Math.floor((productItems.length - 1) / ITEMS_PER_PAGE);
       renderAll(); autosave();
     }
 
     function removePrompt(type) {
-      const num=prompt('Enter item number to remove:'); const id=parseInt(num,10);
-      if(isNaN(id)) return;
-      if(type==='product') productItems=productItems.filter(x=>x.id!==id);
-      else if(currentSprintIndex>=0) sprints[currentSprintIndex]=sprints[currentSprintIndex].filter(x=>x.id!==id);
+      const num = prompt('Enter item number to remove:'); const id = parseInt(num, 10);
+      if (isNaN(id)) return;
+      if (type === 'product') productItems = productItems.filter(x => x.id !== id);
+      else if (currentSprintIndex >= 0) sprints[currentSprintIndex] = sprints[currentSprintIndex].filter(x => x.id !== id);
       renderAll(); autosave();
     }
 
     function moveToSprint(id) {
-      if(currentSprintIndex<0){ alert('Create a sprint first'); return; }
-      const idx=productItems.findIndex(x=>x.id===id); if(idx<0) return;
-      const item=productItems.splice(idx,1)[0];
-      const assigned=prompt('Assigned to:');
+      if (currentSprintIndex < 0) { alert('Create a sprint first'); return; }
+      const idx = productItems.findIndex(x => x.id === id); if (idx < 0) return;
+      const item = productItems.splice(idx, 1)[0];
+      const assigned = prompt('Assigned to:');
       sprints[currentSprintIndex].push({ ...item, assigned });
       renderAll(); autosave();
     }
 
-    function prevPage(type){ if(type==='product'&&productPage>0)productPage--; if(type==='sprint'&&sprintPage>0)sprintPage--; renderAll(); }
-    function nextPage(type){ const arr=type==='product'?productItems:sprints[currentSprintIndex]||[]; const pg=type==='product'?productPage:sprintPage; if(pg+1<Math.ceil(arr.length/ITEMS_PER_PAGE)){ if(type==='product')productPage++; else sprintPage++; } renderAll(); }
+    function prevPage(type) {
+      if (type === 'product' && productPage > 0) productPage--;
+      if (type === 'sprint' && sprintPage > 0) sprintPage--;
+      renderAll();
+    }
 
-    function newSprint(){ const days=prompt('Enter sprint duration in days:'); const d=parseInt(days,10); if(isNaN(d)||d<=0){ alert('Invalid duration'); return; } const endDate=new Date(Date.now()+d*24*60*60*1000); sprints.push([]); sprintEndTimes.push(endDate); currentSprintIndex=sprints.length-1; sprintPage=0; renderAll(); startCountdown(); autosave(); }
+    function nextPage(type) {
+      const arr = type === 'product' ? productItems : sprints[currentSprintIndex] || [];
+      const pg = type === 'product' ? productPage : sprintPage;
+      if (pg + 1 < Math.ceil(arr.length / ITEMS_PER_PAGE)) {
+        if (type === 'product') productPage++;
+        else sprintPage++;
+      }
+      renderAll();
+    }
 
-    function removeSprint(i){ if(sprints.length>0){ sprints.splice(i,1); sprintEndTimes.splice(i,1);} currentSprintIndex=Math.min(currentSprintIndex,sprints.length-1); sprintPage=0; renderAll(); startCountdown(); autosave(); }
+    function newSprint() {
+      const days = prompt('Enter sprint duration in days:');
+      const d = parseInt(days, 10);
+      if (isNaN(d) || d <= 0) {
+        alert('Invalid duration');
+        return;
+      }
+      const endDate = new Date(Date.now() + d * 24 * 60 * 60 * 1000);
+      sprints.push([]);
+      sprintEndTimes.push(endDate);
+      currentSprintIndex = sprints.length - 1;
+      sprintPage = 0;
+      renderAll();
+      startCountdown();
+      autosave();
+    }
 
-    function startCountdown(){ clearInterval(countdownInterval); const display=document.getElementById('countdown'); if(currentSprintIndex<0||!sprintEndTimes[currentSprintIndex]){ display.textContent=''; return; } function update(){ const diff=sprintEndTimes[currentSprintIndex]-new Date(); if(diff<=0){ display.textContent='Sprint ended'; clearInterval(countdownInterval); return;} const days=Math.floor(diff/86400000); const hrs=Math.floor((diff%86400000)/3600000); const mins=Math.floor((diff%3600000)/60000); const secs=Math.floor((diff%60000)/1000); display.textContent=`Time remaining: ${days}d ${hrs}h ${mins}m ${secs}s`; } update(); countdownInterval=setInterval(update,1000); }
+    function removeSprint(i) {
+      if (sprints.length > 0) {
+        sprints.splice(i, 1);
+        sprintEndTimes.splice(i, 1);
+      }
+      currentSprintIndex = Math.min(currentSprintIndex, sprints.length - 1);
+      sprintPage = 0;
+      renderAll();
+      startCountdown();
+      autosave();
+    }
 
-    document.addEventListener('DOMContentLoaded',()=>{ loadData(); renderAll(); startCountdown(); });
-    function saveProgress(){ autosave(); alert('Progress saved!'); }
+    function startCountdown() {
+      clearInterval(countdownInterval);
+      const display = document.getElementById('countdown');
+      if (currentSprintIndex < 0 || !sprintEndTimes[currentSprintIndex]) {
+        display.textContent = '';
+        return;
+      }
+      function update() {
+        const diff = sprintEndTimes[currentSprintIndex].getTime() - new Date().getTime();
+        if (diff <= 0) {
+          display.textContent = 'Sprint ended';
+          clearInterval(countdownInterval);
+          return;
+        }
+        const days = Math.floor(diff / 86400000);
+        const hrs = Math.floor((diff % 86400000) / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        display.textContent = `⏳ ${days}d ${hrs}h ${mins}m ${secs}s`;
+      }
+      update();
+      countdownInterval = setInterval(update, 1000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadData();
+      renderAll();
+      startCountdown();
+    });
+
+    function saveProgress() {
+      autosave();
+      alert('Progress saved!');
+    }
   </script>
 </body>
 </html>
