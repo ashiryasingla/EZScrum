@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>EZScrum - Easily Accessible Scrum Management</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" type="image/png" href="favicon.png" />
@@ -10,98 +10,236 @@
 <body>
   <!-- Sidebar Navigation -->
   <ul>
-    <li><a href="index.html"><img src="favicon.png" width="55" height="50" style="padding-left: 5px;"></a></li>
+    <li><a href="index.html"><img src="favicon.png" width="55" height="50" style="padding-left:5px;"></a></li>
     <li><a class="active menu" href="index.html">🏠 Home</a></li>
     <li><a class="menu" href="about.html">ℹ️ About</a></li>
     <li><a class="menu" href="contact.html">📧 Contact</a></li>
   </ul>
 
-
-  <!-- Main Content -->
   <div class="main">
-    <h1 style="font-size: 0;">
-      <span class="ez title">EZ</span>
-      <span class="title">Scrum</span>
+    <h1 style="font-size:0;">
+      <span class="ez title">EZ</span><span class="title">Scrum</span>
     </h1>
     <hr />
     <p>Welcome to EZScrum. Manage your agile projects with speed and clarity.</p>
 
+    <!-- Sprint selector buttons (kept out of the backlog boxes) -->
+    <div id="sprintSelectors" class="sprint-selectors"></div>
 
     <div class="backlog-container">
       <!-- Product Backlog -->
       <div class="product-backlog">
         <h1 class="backlog-title">Product Backlog</h1>
-        <div class="backlog-items" id="productBacklog">
-          <div class="backlog-item">
-            <input type="text" maxlength="19" value="1. New Item" class="editable-input">
-            <img class="checkmark inactive" src="checked.png" alt="Check">
-          </div>
-        </div>
+        <div id="productBacklog" class="backlog-items"
+             ondragover="allowDrop(event)" ondrop="dropToProduct(event)"></div>
         <div class="backlog-footer">
-          <button class="backlog-btn" onclick="addItem();">Add Item</button>
-          <button class="backlog-btn" onclick="removeItem();">Remove Item</button>
-          <span class="page-label">Page 1/2</span>
-          <button class="arrow-btn">></button>
+          <button class="backlog-btn" onclick="addItem('product')">Add Item</button>
+          <button class="backlog-btn" onclick="removeItem('product')">Remove Item</button>
+          <button class="arrow-btn" onclick="prevPage('product')">&lt;</button>
+          <span class="page-label" id="productPageLabel">Page 1/1</span>
+          <button class="arrow-btn" onclick="nextPage('product')">&gt;</button>
+          <span class="other-pages-info" id="productInfoLabel"></span>
         </div>
       </div>
 
-
       <!-- Sprint Backlog -->
       <div class="sprint-items">
-        <h1 class="backlog-title">Sprint 1 Items</h1>
-        <div class="backlog-items">
-          <div class="backlog-item">
-            1. Example item <img class="checkmark inactive" src="checked.png" alt="Check">
-          </div>
-        </div>
+        <h1 class="backlog-title">
+          Sprint <span id="currentSprintNumber">1</span> Items
+        </h1>
+        <div id="sprintBacklog" class="backlog-items"
+             ondragover="allowDrop(event)" ondrop="dropToSprint(event)"></div>
         <div class="backlog-footer">
-          <button class="backlog-btn">New Sprint</button>
-          <span class="page-label">Page 1/1</span>
-          <button class="arrow-btn">></button>           
+          <button class="backlog-btn" onclick="newSprint()">New Sprint</button>
+          <button class="backlog-btn" onclick="removeItem('sprint')">Remove Item</button>
+          <button class="arrow-btn" onclick="prevPage('sprint')">&lt;</button>
+          <span class="page-label" id="sprintPageLabel">Page 1/1</span>
+          <button class="arrow-btn" onclick="nextPage('sprint')">&gt;</button>
+          <span class="other-pages-info" id="sprintInfoLabel"></span>
         </div>
       </div>
     </div>
   </div>
 
-
-  <!-- JavaScript -->
   <script>
-    function toggleCheckmark(event) {
-      event.target.classList.toggle("inactive");
+    const ITEMS_PER_PAGE = 5;
+    let productItems = ["1. New item"], productPage = 0;
+    let sprints = [[]], currentSprintIndex = 0, sprintPage = 0;
+
+    function allowDrop(ev) {
+      ev.preventDefault();
+      ev.dataTransfer.dropEffect = "move";
     }
-  
-    function addItem() {
-      const backlog = document.getElementById("productBacklog");
-      const newItem = document.createElement("div");
-      newItem.className = "backlog-item";
-      const itemCount = backlog.children.length + 1;
-  
-      newItem.innerHTML = `
-        <input type="text" maxlength="19" value="${itemCount}. New item" class="editable-input">
-        <img class="checkmark inactive" src="checked.png" alt="Check">
-      `;
-  
-      backlog.appendChild(newItem);
-  
-      // Attach the same checkmark logic to the new item
-      const newCheckmark = newItem.querySelector(".checkmark");
-      newCheckmark.addEventListener("click", toggleCheckmark);
+
+    function dragStart(ev) {
+      const item = ev.target.closest(".backlog-item");
+      const list = item.parentNode;
+      const index = Array.from(list.children).indexOf(item);
+      const type = list.id === "productBacklog" ? "product" : "sprint";
+      ev.dataTransfer.setData("text/plain", JSON.stringify({type, index}));
+      ev.dataTransfer.effectAllowed = "move";
+      item.classList.add("dragging");
     }
-  
-    function removeItem() {
-      const backlog = document.getElementById("productBacklog");
-      if (backlog.children.length > 0) {
-        backlog.removeChild(backlog.lastElementChild);
+
+    function dragEnd(ev) {
+      ev.target.closest(".backlog-item").classList.remove("dragging");
+    }
+
+    function dropToSprint(ev) {
+      ev.preventDefault();
+      const {type, index} = JSON.parse(ev.dataTransfer.getData("text/plain"));
+      if (type !== "product") return;
+      const item = productItems.splice(index, 1)[0];
+      sprints[currentSprintIndex].push(item);
+      if (productPage > 0 && productPage * ITEMS_PER_PAGE >= productItems.length) productPage--;
+      sprintPage = Math.floor((sprints[currentSprintIndex].length - 1) / ITEMS_PER_PAGE);
+      renderItems("product");
+      renderItems("sprint");
+      const sb = document.getElementById("sprintBacklog");
+      sb.style.boxShadow = "0 0 12px #04AA6D";
+      setTimeout(()=> sb.style.boxShadow="", 300);
+    }
+
+    function dropToProduct(ev) {
+      ev.preventDefault();
+      const {type, index} = JSON.parse(ev.dataTransfer.getData("text/plain"));
+      if (type !== "sprint") return;
+      const list = sprints[currentSprintIndex];
+      const item = list.splice(index, 1)[0];
+      productItems.push(item);
+      if (sprintPage > 0 && sprintPage * ITEMS_PER_PAGE >= list.length) sprintPage--;
+      productPage = Math.floor((productItems.length - 1) / ITEMS_PER_PAGE);
+      renderItems("product");
+      renderItems("sprint");
+    }
+
+    function createItemHTML(text, editable, idx, which) {
+      const div = document.createElement("div");
+      div.className = "backlog-item";
+      div.draggable = true;
+      div.addEventListener("dragstart", dragStart);
+      div.addEventListener("dragend", dragEnd);
+
+      if (editable) {
+        div.innerHTML = `
+          <input type="text" class="editable-input"
+                 data-type="${which}" data-index="${idx}"
+                 maxlength="19" value="${text}">
+          <img class="checkmark inactive" src="checked.png" alt="Check">
+        `;
+      } else {
+        div.innerHTML = `${text} <img class="checkmark inactive" src="checked.png">`;
+      }
+      div.querySelector(".checkmark")
+         .addEventListener("click", e=> e.target.classList.toggle("inactive"));
+      return div;
+    }
+
+    function renderItems(which) {
+      let arr, page, container, lbl, info;
+      if (which === "product") {
+        arr = productItems; page = productPage;
+        container = document.getElementById("productBacklog");
+        lbl = document.getElementById("productPageLabel");
+        info = document.getElementById("productInfoLabel");
+      } else {
+        arr = sprints[currentSprintIndex]; page = sprintPage;
+        container = document.getElementById("sprintBacklog");
+        lbl = document.getElementById("sprintPageLabel");
+        info = document.getElementById("sprintInfoLabel");
+      }
+      container.innerHTML = "";
+      const start = page * ITEMS_PER_PAGE;
+      const end = Math.min(start + ITEMS_PER_PAGE, arr.length);
+      for (let i = start; i < end; i++) {
+        container.appendChild(createItemHTML(arr[i], which === "product", i, which));
+      }
+      const total = Math.ceil(arr.length / ITEMS_PER_PAGE) || 1;
+      lbl.textContent = `Page ${page+1}/${total}`;
+      const rem = arr.length - end;
+      info.textContent = rem
+        ? `+${rem} item${rem>1?"s":""} on other page${Math.ceil(rem/ITEMS_PER_PAGE)>1?"s":""}`
+        : "";
+    }
+
+    function addItem(type) {
+      if (type === "product") {
+        productItems.push(`${productItems.length+1}. New item`);
+        productPage = Math.floor((productItems.length-1)/ITEMS_PER_PAGE);
+        renderItems("product");
       }
     }
-  
-    document.addEventListener("DOMContentLoaded", function () {
-      const checkmarks = document.querySelectorAll(".checkmark");
-      checkmarks.forEach(checkmark => {
-        checkmark.addEventListener("click", toggleCheckmark);
+    function removeItem(type) {
+      if (type === "product" && productItems.length) {
+        productItems.pop();
+        if (productPage>0 && productPage*ITEMS_PER_PAGE>=productItems.length) productPage--;
+        renderItems("product");
+      }
+      if (type === "sprint") {
+        const cur = sprints[currentSprintIndex];
+        if (cur.length) {
+          cur.pop();
+          if (sprintPage>0 && sprintPage*ITEMS_PER_PAGE>=cur.length) sprintPage--;
+          renderItems("sprint");
+        }
+      }
+    }
+
+    function nextPage(type) {
+      const arr = type==="product"?productItems:sprints[currentSprintIndex];
+      const pg = type==="product"?productPage:sprintPage;
+      if (pg+1 < Math.ceil(arr.length/ITEMS_PER_PAGE)) {
+        if (type==="product") productPage++; else sprintPage++;
+        renderItems(type);
+      }
+    }
+    function prevPage(type) {
+      if (type==="product" && productPage>0) productPage--, renderItems("product");
+      if (type==="sprint" && sprintPage>0) sprintPage--, renderItems("sprint");
+    }
+
+    function newSprint() {
+      sprints.push([]);
+      currentSprintIndex = sprints.length - 1;
+      sprintPage = 0;
+      updateSprintSelectors();
+      updateSprintHeader();
+      renderItems("sprint");
+    }
+
+    function updateSprintSelectors() {
+      const cont = document.getElementById("sprintSelectors");
+      cont.innerHTML = "";
+      sprints.forEach((_, i) => {
+        const btn = document.createElement("button");
+        btn.className = "backlog-btn" + (i===currentSprintIndex?" active-sprint-btn":"");
+        btn.textContent = `Sprint ${i+1}`;
+        btn.onclick = () => {
+          currentSprintIndex = i; sprintPage = 0;
+          updateSprintSelectors(); updateSprintHeader(); renderItems("sprint");
+        };
+        cont.appendChild(btn);
       });
+    }
+    function updateSprintHeader() {
+      document.getElementById("currentSprintNumber")
+              .textContent = currentSprintIndex+1;
+    }
+
+    document.addEventListener("input", e => {
+      if (e.target.classList.contains("editable-input")) {
+        const idx = +e.target.dataset.index,
+              which = e.target.dataset.type;
+        if (which==="product") productItems[idx] = e.target.value;
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      updateSprintSelectors();
+      updateSprintHeader();
+      renderItems("product");
+      renderItems("sprint");
     });
   </script>
-  
 </body>
 </html>

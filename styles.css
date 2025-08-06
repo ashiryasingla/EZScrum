@@ -200,6 +200,7 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
 }
 
 .backlog-title {
@@ -214,6 +215,7 @@ p {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    min-height: 300px;
 }
 
 .backlog-item {
@@ -227,6 +229,12 @@ p {
     align-items: center;
     font-weight: 500;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    cursor: grab;
+    user-select: none;
+}
+
+.backlog-item:active {
+    cursor: grabbing;
 }
 
 .backlog-item small {
@@ -275,6 +283,13 @@ p {
     color: #333;
 }
 
+.other-pages-info {
+    color: black;
+    font-size: 14px;
+    margin-left: 8px;
+    user-select: none;
+}
+
 /* ==== CHECKMARK IMAGE ==== */
 .checkmark {
     margin-left: 10px;
@@ -290,7 +305,6 @@ p {
     opacity: 0.4;
     filter: grayscale(0.75);
 }
-
 
 /* ==== BACKLOG ITEM CHECKED STATE ==== */
 .backlog-item.checked {
@@ -308,9 +322,14 @@ p {
     font-size: 1rem;
     font-family: inherit;
     margin-right: 8px;
-    color: white;
-  }
+    color: black !important;
+}
 
+/* ==== SPRINT BUTTON POSITION ==== */
+.sprint-footer {
+    justify-content: flex-end !important;
+    gap: 8px;
+}
 
 /* ==== RESPONSIVE ==== */
 @media screen and (max-width: 1024px) {
@@ -366,5 +385,31 @@ p {
 
     p {
         font-size: 16px;
+    }
+}
+@media screen and (max-width: 480px) {
+    ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    ul li a {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    .team-member {
+        width: 90%;
+        max-width: none;
+    }
+
+    .team-member img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .backlog-container {
+        flex-direction: column;
+        align-items: center;
     }
 }
