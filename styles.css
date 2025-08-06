@@ -8,7 +8,7 @@
 html, body {
     height: 100%;
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(to right, #0e3d43, #06031a);
+    background: linear-gradient(to right, #0e3d43, #06031a); 
     color: #e0e0e0;
     overflow-x: hidden;
 }
@@ -34,7 +34,6 @@ ul li {
     margin-bottom: 10px;
 }
 
-/* ==== COUNTDOWN ==== */
 .countdown {
     color: black;
 }
@@ -46,31 +45,17 @@ ul li {
     align-items: flex-start;
 }
 .sprint-items .backlog-item .story-details {
-    /* this rule applies to any default story-details inside the box */
     margin-top: 6px;
     padding-left: 0;
 }
 
-/* Countdown spacing */
+/* Tighten spacing between countdown and sprint header */
 .sprint-items #countdown {
     margin-bottom: 4px;
 }
 .sprint-items .backlog-title {
     margin-top: 0;
     margin-bottom: 8px;
-}
-
-/* ==== BELOW-ITEM DETAILS ==== */
-.item-wrapper {
-    display: flex;
-    flex-direction: column;
-}
-.story-details.below-item {
-    margin-top: 6px;      /* gap below the black box */
-    margin-left: 40px;    /* indent under the text */
-    color: #000;          /* black text for “Assigned:” */
-    font-style: italic;
-    font-size: 0.9em;
 }
 
 /* ==== MENU LINKS ==== */
@@ -85,11 +70,13 @@ ul li a.menu {
     position: relative;
     border-left: 4px solid transparent;
 }
+
 ul li a.menu:hover {
     background-color: rgba(255, 255, 255, 0.05);
     color: #ffffff;
     border-left: 4px solid #04AA6D;
 }
+
 ul li a.active {
     background-color: #045e4d;
     color: #ffffff;
@@ -111,17 +98,20 @@ h1 {
     color: #ffffff;
     letter-spacing: 1px;
 }
+
 .title {
     font-size: 48px;
     font-weight: 700;
     color: #ffffff;
 }
+
 h2 {
     text-align: center;
     margin-bottom: 10px;
     color: #ffffff;
     letter-spacing: 1px;
 }
+
 hr {
     height: 2px;
     width: 60px;
@@ -130,6 +120,7 @@ hr {
     margin: 20px auto;
     border-radius: 2px;
 }
+
 p {
     max-width: 800px;
     margin: 0 auto;
@@ -138,6 +129,7 @@ p {
     line-height: 1.8;
     color: #cfcfcf;
 }
+
 .ez {
     color: #89f1ff;
 }
@@ -150,6 +142,7 @@ p {
     gap: 40px;
     margin-top: 40px;
 }
+
 .team-member {
     text-align: center;
     background: rgba(255, 255, 255, 0.03);
@@ -160,10 +153,12 @@ p {
     width: 100%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .team-member:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 18px rgba(0,0,0,0.4);
 }
+
 .team-member img {
     width: 200px;
     height: 200px;
@@ -171,17 +166,20 @@ p {
     object-fit: cover;
     margin-bottom: 15px;
 }
+
 .team-member .name {
     font-size: 20px;
     font-weight: bold;
     color: #ffffff;
     margin-bottom: 5px;
 }
+
 .team-member .role {
     font-size: 16px;
     color: #aad9db;
     margin-bottom: 5px;
 }
+
 .team-member .email {
     font-size: 14px;
     color: #4f8cff;
@@ -201,8 +199,7 @@ p {
 }
 
 /* ==== BACKLOG BOXES ==== */
-.product-backlog,
-.sprint-items {
+.product-backlog, .sprint-items {
     background-color: #e0e0e0;
     border-radius: 25px;
     width: 400px;
@@ -214,6 +211,7 @@ p {
     flex-direction: column;
     justify-content: space-between;
 }
+
 .backlog-title {
     color: black;
     font-size: 24px;
@@ -227,6 +225,7 @@ p {
     flex-direction: column;
     gap: 15px;
 }
+
 .backlog-item {
     background-color: #111;
     color: white;
@@ -239,6 +238,7 @@ p {
     font-weight: 500;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
+
 .backlog-item small {
     display: block;
     color: #333;
@@ -255,6 +255,7 @@ p {
     gap: 10px;
     margin-top: 20px;
 }
+
 .backlog-btn {
     background-color: #5a4bcf;
     color: white;
@@ -266,9 +267,11 @@ p {
     cursor: pointer;
     transition: background 0.3s ease;
 }
+
 .backlog-btn:hover {
     background-color: #4638b3;
 }
+
 .arrow-btn {
     font-size: 20px;
     background: none;
@@ -278,17 +281,20 @@ p {
     color: #333;
     transition: color 0.2s ease;
 }
+
 .arrow-btn:hover {
     color: #111;
 }
+
 .page-label {
     font-size: 14px;
     font-weight: 600;
     color: #333;
 }
+
 .other-pages-info {
     font-size: 13px;
-    color: black;
+    color: black;     
     margin-left: auto;
     font-style: italic;
 }
@@ -301,6 +307,8 @@ p {
     margin-bottom: 10px;
     flex-wrap: wrap;
 }
+
+/* Active sprint button styling */
 .sprint-btn {
     background-color: #4638b3;
     color: white;
@@ -311,13 +319,13 @@ p {
     font-size: 14px;
     cursor: pointer;
 }
+
 .active-sprint-btn {
     background-color: #01BF30;
 }
+
 .close-btn {
     color: red;
-    margin-left: 8px;
-    font-size: 16px;
 }
 
 /* ==== CHECKMARK IMAGE ==== */
@@ -330,6 +338,7 @@ p {
     opacity: 1;
     filter: grayscale(0);
 }
+
 .checkmark.inactive {
     opacity: 0.4;
     filter: grayscale(0.75);
@@ -343,7 +352,6 @@ p {
     transition: opacity 0.3s ease, color 0.3s ease, text-decoration 0.3s ease;
 }
 
-/* ==== INPUTS ==== */
 .editable-input {
     flex-grow: 1;
     border: none;
@@ -363,11 +371,13 @@ p {
         align-items: center;
         gap: 40px;
     }
+
     .product-backlog, .sprint-items {
         width: 90%;
         min-height: auto;
     }
 }
+
 @media screen and (max-width: 768px) {
     ul {
         position: relative;
@@ -380,103 +390,137 @@ p {
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(8px);
     }
+
     ul li {
         margin-bottom: 0;
     }
+
     ul li a {
         border-left: none;
         border-bottom: 3px solid transparent;
         padding: 14px;
     }
+
     ul li a.active {
         border-bottom: 3px solid #04AA6D;
         background-color: transparent;
     }
+
     .main {
         margin-left: 0;
         padding: 40px 20px;
     }
+
     h1 {
         font-size: 36px;
     }
+
     p {
         font-size: 16px;
     }
 }
+
 @media screen and (max-width: 480px) {
     ul {
         flex-direction: column;
         align-items: center;
     }
+
     ul li a {
         padding: 12px 20px;
         font-size: 14px;
     }
+
     .team-member {
         width: 90%;
         max-width: none;
     }
+
     .team-member img {
         width: 150px;
         height: 150px;
     }
+
     .backlog-container {
         flex-direction: column;
         align-items: center;
     }
 }
 
-/* ==== PAGINATION ==== */
 .page-controls {
-    flex-basis: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    margin-top: 4px;
+  flex-basis: 100%;       /* takes full width in the footer flexbox */
+  display: flex;
+  justify-content: center; /* center arrows + label */
+  align-items: center;
+  gap: 8px;                /* space between elements */
+  margin-top: 4px;
 }
 
-/* ==== ICON BUTTON ==== */
+.page-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
 .arrow-btn-action {
-    font-size: 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0 10px;
-    color: #00ed3b;
-    transition: color 0.2s ease;
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 10px;
+  color: #00ed3b;
+  transition: color 0.2s ease;
 }
 
-/* ==== HELP & SAVE ==== */
+.story-details {
+  font-size: 0.85em;
+  color: #ccc;
+  margin-top: 4px;
+  padding-left: 10px;
+}
+
+.story-title {
+  font-weight: bold;
+}
+
+.story-details {
+  display: block; /* or flex-direction: column if using flex */
+  margin-top: 5px;
+  color:black;
+}
+
 .save-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 10px 14px;
-    font-size: 14px;
-    background-color: #6c63ff;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
+
 .save-btn:hover {
-    background-color: #574b90;
+  background-color: #574b90;
 }
+
 .help-link {
-    position: absolute;
-    bottom: 10px;
-    left: 280px;
-    background-color: #ffcc00;
-    color: black;
-    padding: 10px 12px;
-    border-radius: 10px;
-    font-weight: bold;
-    text-decoration: none;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    transition: background-color 0.3s;
+  position: absolute;
+  bottom: 10px;
+  left: 280px;
+  background-color: #ffcc00;
+  color: black;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: background-color 0.3s;
 }
+
 .help-link:hover {
-    background-color: #ffaa00;
+  background-color: #ffaa00;
 }
