@@ -524,3 +524,112 @@ p {
 .help-link:hover {
   background-color: #ffaa00;
 }
+
+/* ==== PRICING PLANS ==== */
+.pricing-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch; /* Makes cards have equal height */
+    gap: 30px;
+    padding: 40px;
+    flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
+  }
+  
+  .pricing-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 40px 30px;
+    text-align: center;
+    flex: 1; /* Allows cards to grow and shrink */
+    max-width: 350px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+  }
+  
+  .pricing-card.pro-card {
+    background: #04AA6D;
+    color: #fff;
+  }
+  
+  .pricing-card.pro-card .price {
+    color: #fff;
+  }
+  
+  .pricing-card h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #fff;
+  }
+  
+  .price {
+    font-size: 60px;
+    font-weight: 700;
+    color: #04AA6D;
+    margin-bottom: 20px;
+  }
+  
+  .per-month {
+    font-size: 18px;
+    font-weight: normal;
+    color: #ccc;
+  }
+  
+  .plan-details p {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #e0e0e0;
+    text-align: center;
+  }
+  
+  .pricing-card.pro-card .plan-details p {
+    color: #fff;
+  }
+  
+  .select-btn {
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    margin-top: 30px;
+    border: none;
+    border-radius: 8px;
+    background-color: #5a4bcf;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .select-btn:hover {
+    background-color: #4b3bb3;
+  }
+  
+  .pro-btn {
+    background-color: #fff;
+    color: #04AA6D;
+  }
+  
+  .pro-btn:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media screen and (max-width: 768px) {
+    .pricing-container {
+      padding: 20px;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .pricing-card {
+      max-width: 100%;
+    }
+  }
