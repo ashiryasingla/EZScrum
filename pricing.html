@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Character encoding for universal text rendering -->
+  <meta charset="UTF-8" />
+
+  <!-- Viewport config for responsive design on all devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Title shown in browser tab -->
+  <title>Pricing - EZScrum</title>
+
+  <!-- External CSS file controlling styles across the site -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- === TOP NAVIGATION BAR === -->
+  <!-- Unordered list used for horizontal navigation menu -->
+  <ul>
+    <!-- Logo with clickable link to home page -->
+    <li>
+      <a href="index.html">
+        <img src="favicon.png" width="55" height="50" style="padding-left:5px;" />
+      </a>
+    </li>
+
+    <!-- Navigation link to homepage -->
+    <li><a class="menu" href="index.html">🏠 Home</a></li>
+
+    <!-- Navigation link to About page -->
+    <li><a class="menu" href="about.html">ℹ️ About</a></li>
+
+    <!-- Navigation link to Pricing page (current page) -->
+    <li><a class="active menu" href="pricing.html">💰 Pricing</a></li>
+
+    <!-- Navigation link to Contact form -->
+    <li><a class="menu" href="contact.html">📧 Contact</a></li>
+
+    <!-- Navigation link to Help/FAQ page -->
+    <li><a class="menu" href="help.html">🆘 Help</a></li>
+  </ul>
+
+  <!-- === MAIN CONTENT AREA === -->
+  <div class="main">
+    <!-- Page title: "Pricing Plans", with "EZ" styled differently -->
+    <h1><span class="ez title">Pricing</span><span class="title"> Plans</span></h1>
+
+    <!-- Horizontal rule for visual separation -->
+    <hr />
+
+    <!-- Brief tagline encouraging users to choose a plan -->
+    <p>Choose the plan that best fits your team's needs.</p>
+
+    <!-- === PRICING CARDS SECTION === -->
+    <div class="pricing-container">
+      <!-- FREE PLAN CARD -->
+      <div class="pricing-card">
+        <!-- Plan Name -->
+        <h2>Free Plan</h2>
+
+        <!-- Price value -->
+        <div class="price">
+          $0
+        </div>
+
+        <!-- Feature list for the Free plan -->
+        <div class="plan-details">
+          <p>Limited to 5 sprints</p>
+          <p>Standard features</p>
+        </div>
+
+        <!-- CTA button for selecting the Free plan -->
+        <button class="select-btn">Select Plan</button>
+      </div>
+
+      <!-- PRO PLAN CARD -->
+      <div class="pricing-card pro-card">
+        <!-- Plan Name -->
+        <h2>Pro Plan</h2>
+
+        <!-- Price with monthly suffix -->
+        <div class="price">
+          $7.49<span class="per-month">/mo</span>
+        </div>
+
+        <!-- Feature list for the Pro plan -->
+        <div class="plan-details">
+          <p>Unlimited sprints</p>
+          <p>All features included</p>
+        </div>
+
+        <!-- CTA button for selecting the Pro plan -->
+        <button class="select-btn pro-btn">Select Plan</button>
+      </div>
+    </div> <!-- End of pricing-container -->
+  </div> <!-- End of main -->
+</body>
+</html>
